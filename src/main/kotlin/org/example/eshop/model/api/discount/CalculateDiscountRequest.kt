@@ -1,3 +1,6 @@
 package org.example.eshop.model.api.discount
 
-class CalculateDiscountRequest
+data class CalculateDiscountRequest(
+    val productId: String,
+    val quantity: Int,
+)

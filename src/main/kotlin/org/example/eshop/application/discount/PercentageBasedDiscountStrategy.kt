@@ -11,8 +11,12 @@ class PercentageBasedDiscountStrategy(
 ) : DiscountStrategy {
     override fun calculateDiscount(
         product: Product,
-        count: Int,
+        quantity: Int,
     ): BigDecimal {
+        TODO("Not yet implemented")
+    }
+
+    override fun isApplicable(count: Int?): Boolean {
         TODO("Not yet implemented")
     }
 }

@@ -1,3 +1,7 @@
 package org.example.eshop.model.api.discount
 
-class CalculateDiscountResponse
+import java.math.BigDecimal
+
+data class CalculateDiscountResponse(
+    val discount: BigDecimal,
+)
