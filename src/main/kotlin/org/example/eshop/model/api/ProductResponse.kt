@@ -1,3 +1,7 @@
 package org.example.eshop.model.api
 
-class ProductResponse
+data class ProductResponse(
+    val id: String,
+    val name: String,
+    val price: Double,
+)

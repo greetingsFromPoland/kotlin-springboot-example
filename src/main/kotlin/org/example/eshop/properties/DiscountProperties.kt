@@ -1,13 +1,16 @@
 package org.example.eshop.properties
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration
 
-typealias DiscountConfiguration = Map<Int, Double>
+typealias DiscountConfiguration = MutableMap<Int, Double>
 
 @Configuration
 @ConfigurationProperties(prefix = "discount")
 data class DiscountProperties(
-    val countBased: DiscountConfiguration = emptyMap(),
-    val percentageBased: Double = 0.0,
+    @Value("count-based")
+    var countBased: DiscountConfiguration = mutableMapOf(),
+    @Value("percentage-based")
+    var percentageBased: Double? = null,
 )

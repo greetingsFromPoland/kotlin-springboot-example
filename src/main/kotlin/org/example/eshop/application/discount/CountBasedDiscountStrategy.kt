@@ -18,6 +18,8 @@ class CountBasedDiscountStrategy(
     ): BigDecimal {
         logger.trace { "Calculating discount for product: $product, quantity: $quantity" }
 
+        require(quantity >= 0) { "Quantity must be non-negative" }
+
         val discountRate = findHighestDiscount(quantity)?.toBigDecimal() ?: return BigDecimal.ZERO
         return product.price.multiply(BigDecimal(quantity)).multiply(discountRate).also {
             logger.debug { "Applying discount $discountRate for product quantity: $quantity, amount: $it" }
@@ -32,6 +34,8 @@ class CountBasedDiscountStrategy(
 
     override fun isApplicable(productQuantity: Int?): Boolean {
         logger.trace { "Checking if discount is applicable for product quantity: $productQuantity" }
+
+        require(productQuantity != null && productQuantity >= 0) { "Quantity must be non-negative and not null" }
 
         return productQuantity?.let {
             discountProperties.countBased.keys.any { it <= productQuantity }.also {

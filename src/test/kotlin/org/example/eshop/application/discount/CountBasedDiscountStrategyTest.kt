@@ -1,5 +1,6 @@
 package org.example.eshop.application.discount
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.bigdecimal.shouldBeEqualIgnoringScale
 import io.kotest.matchers.shouldBe
@@ -11,7 +12,7 @@ class CountBasedDiscountStrategyTest : StringSpec() {
     private val discountProperties: DiscountProperties =
         DiscountProperties(
             countBased =
-                mapOf(
+                mutableMapOf(
                     2 to 0.1,
                     3 to 0.2,
                     4 to 0.3,
@@ -22,14 +23,19 @@ class CountBasedDiscountStrategyTest : StringSpec() {
 
     init {
         "should not be applicable when product quantity is null" {
-            countBasedDiscountStrategy.isApplicable(null) shouldBe false
+            shouldThrow<IllegalArgumentException> {
+                countBasedDiscountStrategy.isApplicable(null) shouldBe false
+            }
         }
+
         "should be applicable when product quantity is bigger than discount quantity" {
             countBasedDiscountStrategy.isApplicable(5) shouldBe true
         }
+
         "should be applicable when product quantity is the same as discount quantity" {
             countBasedDiscountStrategy.isApplicable(4) shouldBe true
         }
+
         "should not be applicable when product quantity is smaller than discount quantity" {
             countBasedDiscountStrategy.isApplicable(1) shouldBe false
         }
@@ -37,6 +43,12 @@ class CountBasedDiscountStrategyTest : StringSpec() {
         "calculate discount for quantity matching discount threshold" {
             val product = ProductFixture.createProduct(price = BigDecimal("100.00"))
             countBasedDiscountStrategy.calculateDiscount(product, 2) shouldBeEqualIgnoringScale BigDecimal("20.00")
+        }
+
+        "should return exception when product quantity is negative" {
+            shouldThrow<IllegalArgumentException> {
+                countBasedDiscountStrategy.calculateDiscount(ProductFixture.createProduct(), -1)
+            }
         }
 
         "calculate discount for quantity above discount threshold" {
@@ -57,7 +69,13 @@ class CountBasedDiscountStrategyTest : StringSpec() {
         "handle edge cases for product quantity" {
             val product = ProductFixture.createProduct(price = BigDecimal("200.00"))
             countBasedDiscountStrategy.calculateDiscount(product, 0) shouldBe BigDecimal.ZERO
-            countBasedDiscountStrategy.calculateDiscount(product, -1) shouldBe BigDecimal.ZERO
+        }
+
+        "should handle negative quantities by returning exception" {
+            val product = ProductFixture.createProduct(price = BigDecimal("200.00"))
+            shouldThrow<IllegalArgumentException> {
+                countBasedDiscountStrategy.calculateDiscount(product, -1)
+            }
         }
     }
 }
