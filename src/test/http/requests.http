@@ -1,0 +1,43 @@
+### IPhobe
+GET http://localhost:8080/api/v1/product/7a7c5aa2-54cb-42e6-bc35-c424c3b56ec1
+
+### Calculate Price IPhone
+POST http://localhost:8080/api/v1/product/7a7c5aa2-54cb-42e6-bc35-c424c3b56ec1/calculate-price
+Content-Type: application/json
+
+{
+  "quantity": 10
+}
+
+### Samsung
+GET http://localhost:8080/api/v1/product/a78eecc1-98dd-4c57-82ce-7a2d09b2ca80
+
+### Calculate Price Samsung
+POST http://localhost:8080/api/v1/product/a78eecc1-98dd-4c57-82ce-7a2d09b2ca80/calculate-price
+Content-Type: application/json
+
+{
+  "quantity": 1
+}
+
+### Xiaomi
+GET http://localhost:8080/api/v1/product/5faea262-17e7-4043-ab77-3386ee893abf
+
+### Calculate Price Xiaomi
+POST http://localhost:8080/api/v1/product/5faea262-17e7-4043-ab77-3386ee893abf/calculate-price
+Content-Type: application/json
+
+{
+  "quantity": 20
+}
+
+### Huawei
+GET http://localhost:8080/api/v1/product/e21e7cf1-254f-409b-88cb-ce656cd5233d
+
+### Calculate Price Huawei
+POST http://localhost:8080/api/v1/product/e21e7cf1-254f-409b-88cb-ce656cd5233d/calculate-price
+Content-Type: application/json
+
+{
+  "quantity": 101
+}

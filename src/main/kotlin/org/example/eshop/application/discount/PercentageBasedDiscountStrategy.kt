@@ -1,7 +1,6 @@
 package org.example.eshop.application.discount
 
 import mu.KotlinLogging
-import org.example.eshop.model.entity.Product
 import org.example.eshop.properties.DiscountProperties
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
@@ -13,15 +12,17 @@ class PercentageBasedDiscountStrategy(
     private val logger = KotlinLogging.logger {}
 
     override fun calculateDiscount(
-        product: Product,
+        intermediatePrice: BigDecimal,
         quantity: Int,
     ): BigDecimal {
-        logger.trace { "Calculating discount for product: $product, quantity: $quantity" }
+        logger.trace { "Calculating discount for product quantity: $quantity, intermediatePrice: $intermediatePrice" }
 
         require(quantity >= 0) { "Quantity must be non-negative" }
 
+        if (quantity == 0) return BigDecimal.ZERO
+
         val discountRate = discountProperties.percentageBased?.toBigDecimal() ?: return BigDecimal.ZERO
-        return product.price.multiply(BigDecimal(quantity)).multiply(discountRate).also {
+        return intermediatePrice.multiply(discountRate).also {
             logger.debug { "Applying discount $discountRate for product quantity: $quantity, amount: $it" }
         }
     }

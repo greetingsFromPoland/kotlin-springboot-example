@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: eshop
+
+discount:
+  count-based:
+    10: 0.15
+    20: 0.20
+    100: 0.25
+  percentage-based: 0.10d
+
+logging:
+  level:
+    root: INFO
+    org.example: TRACE

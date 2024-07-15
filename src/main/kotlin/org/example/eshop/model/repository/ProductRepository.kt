@@ -13,7 +13,7 @@ class ProductRepository(
 ) {
     fun findById(id: String): Product? = repository.findById(id).getOrNull()
 
-    fun deleteAll(products: MutableList<Product>) = repository.deleteAll(products)
+    fun deleteAll(products: List<Product>) = repository.deleteAll(products)
 
     fun save(product: Product) = repository.save(product)
 }

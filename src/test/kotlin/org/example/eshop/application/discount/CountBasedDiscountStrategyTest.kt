@@ -4,7 +4,6 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.bigdecimal.shouldBeEqualIgnoringScale
 import io.kotest.matchers.shouldBe
-import org.example.eshop.model.ProductFixture
 import org.example.eshop.properties.DiscountProperties
 import java.math.BigDecimal
 
@@ -41,40 +40,34 @@ class CountBasedDiscountStrategyTest : StringSpec() {
         }
 
         "calculate discount for quantity matching discount threshold" {
-            val product = ProductFixture.createProduct(price = BigDecimal("100.00"))
-            countBasedDiscountStrategy.calculateDiscount(product, 2) shouldBeEqualIgnoringScale BigDecimal("20.00")
+            countBasedDiscountStrategy.calculateDiscount(BigDecimal("200.00"), 2) shouldBeEqualIgnoringScale BigDecimal("20.00")
         }
 
         "should return exception when product quantity is negative" {
             shouldThrow<IllegalArgumentException> {
-                countBasedDiscountStrategy.calculateDiscount(ProductFixture.createProduct(), -1)
+                countBasedDiscountStrategy.calculateDiscount(BigDecimal("200.00"), -1)
             }
         }
 
         "calculate discount for quantity above discount threshold" {
-            val product = ProductFixture.createProduct(price = BigDecimal("100.00"))
-            countBasedDiscountStrategy.calculateDiscount(product, 5) shouldBeEqualIgnoringScale BigDecimal("150.00")
+            countBasedDiscountStrategy.calculateDiscount(BigDecimal("500.00"), 5) shouldBeEqualIgnoringScale BigDecimal("150.00")
         }
 
         "return zero discount for quantity below any discount threshold" {
-            val product = ProductFixture.createProduct(price = BigDecimal("100.00"))
-            countBasedDiscountStrategy.calculateDiscount(product, 1) shouldBeEqualIgnoringScale BigDecimal.ZERO
+            countBasedDiscountStrategy.calculateDiscount(BigDecimal("100.00"), 1) shouldBeEqualIgnoringScale BigDecimal.ZERO
         }
 
         "calculate discount correctly with different product prices" {
-            val product = ProductFixture.createProduct(price = BigDecimal("200.00"))
-            countBasedDiscountStrategy.calculateDiscount(product, 3) shouldBeEqualIgnoringScale BigDecimal("120.00")
+            countBasedDiscountStrategy.calculateDiscount(BigDecimal("600.00"), 3) shouldBeEqualIgnoringScale BigDecimal("120.00")
         }
 
         "handle edge cases for product quantity" {
-            val product = ProductFixture.createProduct(price = BigDecimal("200.00"))
-            countBasedDiscountStrategy.calculateDiscount(product, 0) shouldBe BigDecimal.ZERO
+            countBasedDiscountStrategy.calculateDiscount(BigDecimal("200.00"), 0) shouldBe BigDecimal.ZERO
         }
 
         "should handle negative quantities by returning exception" {
-            val product = ProductFixture.createProduct(price = BigDecimal("200.00"))
             shouldThrow<IllegalArgumentException> {
-                countBasedDiscountStrategy.calculateDiscount(product, -1)
+                countBasedDiscountStrategy.calculateDiscount(BigDecimal("200.00"), -1)
             }
         }
     }

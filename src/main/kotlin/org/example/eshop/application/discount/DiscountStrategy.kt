@@ -1,18 +1,17 @@
 package org.example.eshop.application.discount
 
-import org.example.eshop.model.entity.Product
 import java.math.BigDecimal
 
 interface DiscountStrategy {
     /**
-     * Calculates discount for given product and quantity.
+     * Calculates discount for given quantity.
      *
-     * @param product product for which discount should be calculated
+     * @param intermediatePrice price of product before this discount
      * @param quantity quantity of product for which discount should be calculated
      * @return discount value
      */
     fun calculateDiscount(
-        product: Product,
+        intermediatePrice: BigDecimal,
         quantity: Int,
     ): BigDecimal
 
